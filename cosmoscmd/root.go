@@ -31,6 +31,7 @@ import (
 	tmcli "github.com/tendermint/tendermint/libs/cli"
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
+	ethermintserver "github.com/tharsis/ethermint/server"
 )
 
 type (
@@ -225,6 +226,15 @@ func initRootCmd(
 				options.startCmdCustomizer(cmd)
 			}
 		},
+	)
+
+	// add JSON-RPC server of etherum
+	ethermintserver.AddCommands(
+		rootCmd,
+		defaultNodeHome,
+		a.newApp,
+		a.appExport,
+		addModuleInitFlags,
 	)
 
 	// add keybase, auxiliary RPC, query, and tx child commands
