@@ -213,8 +213,8 @@ func initRootCmd(
 		buildApp,
 	}
 
-	// add server commands
-	server.AddCommands(
+	// add JSON-RPC server of etherum
+	ethermintserver.AddCommands(
 		rootCmd,
 		defaultNodeHome,
 		a.newApp,
@@ -226,15 +226,6 @@ func initRootCmd(
 				options.startCmdCustomizer(cmd)
 			}
 		},
-	)
-
-	// add JSON-RPC server of etherum
-	ethermintserver.AddCommands(
-		rootCmd,
-		defaultNodeHome,
-		a.newApp,
-		a.appExport,
-		addModuleInitFlags,
 	)
 
 	// add keybase, auxiliary RPC, query, and tx child commands
