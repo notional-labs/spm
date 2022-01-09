@@ -31,6 +31,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
 	ethermintclient "github.com/tharsis/ethermint/client"
+	"github.com/tharsis/ethermint/crypto/hd"
 	ethermintserver "github.com/tharsis/ethermint/server"
 )
 
@@ -139,7 +140,8 @@ func NewRootCmd(
 		WithAccountRetriever(types.AccountRetriever{}).
 		WithBroadcastMode(flags.BroadcastBlock).
 		WithHomeDir(defaultNodeHome).
-		WithViper(rootOptions.envPrefix)
+		WithViper(rootOptions.envPrefix).
+		WithKeyringOptions(hd.EthSecp256k1Option())
 
 	rootCmd := &cobra.Command{
 		Use:   appName + "d",
