@@ -4,9 +4,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/codec/types"
-	"github.com/cosmos/cosmos-sdk/std"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
+
+	enccodec "github.com/tharsis/ethermint/encoding/codec"
 )
 
 // EncodingConfig specifies the concrete encoding types to use for a given app.
@@ -36,8 +37,8 @@ func makeEncodingConfig() EncodingConfig {
 // MakeEncodingConfig creates an EncodingConfig for testing
 func MakeEncodingConfig(moduleBasics module.BasicManager) EncodingConfig {
 	encodingConfig := makeEncodingConfig()
-	std.RegisterLegacyAminoCodec(encodingConfig.Amino)
-	std.RegisterInterfaces(encodingConfig.InterfaceRegistry)
+	enccodec.RegisterLegacyAminoCodec(encodingConfig.Amino)
+	enccodec.RegisterInterfaces(encodingConfig.InterfaceRegistry)
 	moduleBasics.RegisterLegacyAminoCodec(encodingConfig.Amino)
 	moduleBasics.RegisterInterfaces(encodingConfig.InterfaceRegistry)
 	return encodingConfig
