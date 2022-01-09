@@ -11,7 +11,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/config"
 	"github.com/cosmos/cosmos-sdk/client/debug"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/client/keys"
 	"github.com/cosmos/cosmos-sdk/client/rpc"
 	"github.com/cosmos/cosmos-sdk/server"
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
@@ -31,6 +30,7 @@ import (
 	tmcli "github.com/tendermint/tendermint/libs/cli"
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
+	ethermintclient "github.com/tharsis/ethermint/client"
 	ethermintserver "github.com/tharsis/ethermint/server"
 )
 
@@ -233,7 +233,7 @@ func initRootCmd(
 		rpc.StatusCommand(),
 		queryCommand(moduleBasics),
 		txCommand(moduleBasics),
-		keys.Commands(defaultNodeHome),
+		ethermintclient.KeyCommands(defaultNodeHome),
 	)
 
 	// add user given sub commands.
