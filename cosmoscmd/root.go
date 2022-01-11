@@ -33,6 +33,7 @@ import (
 	ethermintclient "github.com/tharsis/ethermint/client"
 	"github.com/tharsis/ethermint/crypto/hd"
 	ethermintserver "github.com/tharsis/ethermint/server"
+	ethermintserverconfig "github.com/tharsis/ethermint/server/config"
 )
 
 type (
@@ -426,10 +427,17 @@ func initAppConfig() (string, interface{}) {
 		LruSize uint64 `mapstructure:"lru_size"`
 	}
 
+	type EthermintConfig struct {
+		EVM     ethermintserverconfig.EVMConfig
+		JSONRPC ethermintserverconfig.JSONRPCConfig
+		TLS     ethermintserverconfig.TLSConfig
+	}
+
 	type CustomAppConfig struct {
 		serverconfig.Config
 
-		WASM WASMConfig `mapstructure:"wasm"`
+		WASM      WASMConfig `mapstructure:"wasm"`
+		Ethermint EthermintConfig
 	}
 
 	// Optionally allow the chain developer to overwrite the SDK's default
@@ -455,6 +463,11 @@ func initAppConfig() (string, interface{}) {
 			LruSize:       1,
 			QueryGasLimit: 300000,
 		},
+		Ethermint: EthermintConfig{
+			EVM:     *ethermintserverconfig.DefaultEVMConfig(),
+			JSONRPC: *ethermintserverconfig.DefaultJSONRPCConfig(),
+			TLS:     *ethermintserverconfig.DefaultTLSConfig(),
+		},
 	}
 
 	customAppTemplate := serverconfig.DefaultConfigTemplate + `
@@ -463,7 +476,11 @@ func initAppConfig() (string, interface{}) {
 query_gas_limit = 300000
 # This is the number of wasm vm instances we keep cached in memory for speed-up
 # Warning: this is currently unstable and may lead to crashes, best to keep for 0 unless testing locally
-lru_size = 0`
+lru_size = 0
+
+`
+
+	customAppTemplate = customAppTemplate + ethermintserverconfig.DefaultConfigTemplate
 
 	return customAppTemplate, customAppConfig
 }
