@@ -427,17 +427,13 @@ func initAppConfig() (string, interface{}) {
 		LruSize uint64 `mapstructure:"lru_size"`
 	}
 
-	type EthermintConfig struct {
-		EVM     ethermintserverconfig.EVMConfig     `mapstructure:"evm"`
-		JSONRPC ethermintserverconfig.JSONRPCConfig `mapstructure:"json-rpc"`
-		TLS     ethermintserverconfig.TLSConfig     `mapstructure:"tls"`
-	}
-
 	type CustomAppConfig struct {
 		serverconfig.Config
 
-		WASM      WASMConfig      `mapstructure:"wasm"`
-		ETHERMINT EthermintConfig `mapstructure:"ethermint"`
+		WASM    WASMConfig                          `mapstructure:"wasm"`
+		EVM     ethermintserverconfig.EVMConfig     `mapstructure:"evm"`
+		JSONRPC ethermintserverconfig.JSONRPCConfig `mapstructure:"json-rpc"`
+		TLS     ethermintserverconfig.TLSConfig     `mapstructure:"tls"`
 	}
 
 	// Optionally allow the chain developer to overwrite the SDK's default
@@ -463,11 +459,9 @@ func initAppConfig() (string, interface{}) {
 			LruSize:       1,
 			QueryGasLimit: 300000,
 		},
-		ETHERMINT: EthermintConfig{
-			EVM:     *ethermintserverconfig.DefaultEVMConfig(),
-			JSONRPC: *ethermintserverconfig.DefaultJSONRPCConfig(),
-			TLS:     *ethermintserverconfig.DefaultTLSConfig(),
-		},
+		EVM:     *ethermintserverconfig.DefaultEVMConfig(),
+		JSONRPC: *ethermintserverconfig.DefaultJSONRPCConfig(),
+		TLS:     *ethermintserverconfig.DefaultTLSConfig(),
 	}
 
 	customAppTemplate := serverconfig.DefaultConfigTemplate + `
@@ -476,7 +470,8 @@ func initAppConfig() (string, interface{}) {
 query_gas_limit = 300000
 # This is the number of wasm vm instances we keep cached in memory for speed-up
 # Warning: this is currently unstable and may lead to crashes, best to keep for 0 unless testing locally
-lru_size = 0`
+lru_size = 0
+`
 
 	customAppTemplate = customAppTemplate + ethermintserverconfig.DefaultConfigTemplate
 
