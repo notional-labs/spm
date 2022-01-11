@@ -195,7 +195,9 @@ func initRootCmd(
 	options rootOptions,
 ) {
 	rootCmd.AddCommand(
-		genutilcli.InitCmd(moduleBasics, defaultNodeHome),
+		ethermintclient.ValidateChainID(
+			genutilcli.InitCmd(moduleBasics, defaultNodeHome),
+		),
 		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, defaultNodeHome),
 		genutilcli.MigrateGenesisCmd(),
 		genutilcli.GenTxCmd(
