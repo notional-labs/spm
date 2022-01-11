@@ -9,7 +9,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/config"
-	"github.com/cosmos/cosmos-sdk/client/debug"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/rpc"
 	"github.com/cosmos/cosmos-sdk/server"
@@ -31,6 +30,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
 	ethermintclient "github.com/tharsis/ethermint/client"
+	ethermintdebug "github.com/tharsis/ethermint/client/debug"
 	"github.com/tharsis/ethermint/crypto/hd"
 	ethermintserver "github.com/tharsis/ethermint/server"
 	ethermintserverconfig "github.com/tharsis/ethermint/server/config"
@@ -209,7 +209,7 @@ func initRootCmd(
 		genutilcli.ValidateGenesisCmd(moduleBasics),
 		AddGenesisAccountCmd(defaultNodeHome),
 		tmcli.NewCompletionCmd(rootCmd, true),
-		debug.Cmd(),
+		ethermintdebug.Cmd(),
 		config.Cmd(),
 	)
 
