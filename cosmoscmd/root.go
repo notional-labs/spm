@@ -428,16 +428,16 @@ func initAppConfig() (string, interface{}) {
 	}
 
 	type EthermintConfig struct {
-		EVM     ethermintserverconfig.EVMConfig
-		JSONRPC ethermintserverconfig.JSONRPCConfig
-		TLS     ethermintserverconfig.TLSConfig
+		EVM     ethermintserverconfig.EVMConfig     `mapstructure:"evm"`
+		JSONRPC ethermintserverconfig.JSONRPCConfig `mapstructure:"json-rpc"`
+		TLS     ethermintserverconfig.TLSConfig     `mapstructure:"tls"`
 	}
 
 	type CustomAppConfig struct {
 		serverconfig.Config
 
-		WASM      WASMConfig `mapstructure:"wasm"`
-		Ethermint EthermintConfig
+		WASM      WASMConfig      `mapstructure:"wasm"`
+		ETHERMINT EthermintConfig `mapstructure:"ethermint"`
 	}
 
 	// Optionally allow the chain developer to overwrite the SDK's default
@@ -463,7 +463,7 @@ func initAppConfig() (string, interface{}) {
 			LruSize:       1,
 			QueryGasLimit: 300000,
 		},
-		Ethermint: EthermintConfig{
+		ETHERMINT: EthermintConfig{
 			EVM:     *ethermintserverconfig.DefaultEVMConfig(),
 			JSONRPC: *ethermintserverconfig.DefaultJSONRPCConfig(),
 			TLS:     *ethermintserverconfig.DefaultTLSConfig(),
