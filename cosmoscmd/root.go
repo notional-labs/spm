@@ -34,6 +34,7 @@ import (
 	"github.com/tharsis/ethermint/crypto/hd"
 	ethermintserver "github.com/tharsis/ethermint/server"
 	ethermintserverconfig "github.com/tharsis/ethermint/server/config"
+	srvflags "github.com/tharsis/ethermint/server/flags"
 )
 
 type (
@@ -240,6 +241,11 @@ func initRootCmd(
 		txCommand(moduleBasics),
 		ethermintclient.KeyCommands(defaultNodeHome),
 	)
+
+	rootCmd, err := srvflags.AddTxFlags(rootCmd)
+	if err != nil {
+		panic(err)
+	}
 
 	// add user given sub commands.
 	for _, cmd := range options.addSubCmds {
